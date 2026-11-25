@@ -15,18 +15,18 @@ The server listens on port `3000` by default. Override it with `PORT`. The local
 
 The kiosk creates a one-time QR code that expires after two minutes. Scan it with a phone camera on the same reachable network, then enter the mobile number and PIN on the approval page. The phone and kiosk must be able to reach the same server. If the request hostname is not reachable from the phone, set `PUBLIC_BASE_URL` to the kiosk's reachable URL. A phone's `localhost` refers to the phone itself. Use HTTPS for remotely accessible deployments.
 
-### Host a demo on Render
+### Host a disposable demo on Render
 
-The root `render.yaml` is a Render Blueprint for a single Node.js web service in Singapore. It installs from the lockfile, uses `/healthz` for health checks, and mounts a 1 GB persistent disk at `/var/data` for the JSON store. Render persistent disks require a paid web service; this configuration is not a free-tier deployment.
+The root `render.yaml` is a Render Blueprint for a single free Node.js web service in Singapore. It installs from the lockfile and uses `/healthz` for health checks. The JSON store is written to `/tmp` because the free service has no persistent disk; member profiles, workouts, and sessions may disappear whenever the instance restarts, sleeps, or redeploys.
 
 1. Push the project to a GitHub repository.
 2. In Render, choose **New > Blueprint**, connect the repository, and apply the [`render.yaml`](./render.yaml) configuration. See Render's [Blueprint guide](https://render.com/docs/infrastructure-as-code) if needed.
 3. After the service is created, copy its HTTPS URL (for example, `https://your-service.onrender.com`) into the service's `PUBLIC_BASE_URL` environment variable, then redeploy.
 4. Confirm the service URL and its `/healthz` endpoint respond before testing enrollment, QR approval, and workouts with fake data.
 
-Keep this service at one instance. The JSON file and login sessions are designed for a single process; multiple instances would not share their session memory or safely coordinate file writes. Persistent-disk deployments can have brief downtime during redeploys. See Render's [persistent-disk notes](https://render.com/docs/disks) for storage limitations.
+Keep this service at one instance. The JSON file and login sessions are designed for a single process; multiple instances would not share their session memory or safely coordinate file writes.
 
-**Demo only:** the service URL is public, and this prototype does not verify phone ownership or protect member data with an encrypted database. Use fictional data only; do not connect it to a public kiosk or collect real member information.
+**Disposable demo only:** the service URL is public, data is not durable, and this prototype does not verify phone ownership or protect member data with an encrypted database. Use fictional data only; do not connect it to a public kiosk or collect real member information.
 
 ## Features included
 
@@ -94,7 +94,7 @@ The exercise artwork and wording are illustrative, not reviewed training media. 
 
 - Member profiles (including mobile numbers) and workout state are stored in a local JSON file. PINs are hashed, but phone numbers and the rest of the file are **not encrypted at rest**.
 - Authentication tokens and QR approval state live in server memory; users may need to sign in again after a server restart. Workout records and custom plans are persisted locally.
-- Hosting configuration is provided for a single-instance Render demo with a persistent disk. A persistent disk does not add database transactions, multi-instance support, encrypted application data, or production-ready backups.
+- Hosting configuration is provided for a single-instance, non-persistent Render demo. The free instance does not provide durable data storage or multi-instance support.
 - Because phone ownership is unverified, do not enter real or sensitive member data on a public prototype URL.
 - There is no account deletion flow, encrypted database, backup system, or production consent-management workflow.
 - Do not use real member data or deploy this prototype on a public kiosk until HTTPS, protected persistent storage and backups, account deletion, operational monitoring, equipment/content review, accessibility testing, and security and legal review are in place.
