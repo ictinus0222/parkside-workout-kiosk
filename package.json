@@ -1,0 +1,13 @@
+{
+  "name": "park-workout-kiosk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kiosk-first workout guidance MVP for public outdoor gyms",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

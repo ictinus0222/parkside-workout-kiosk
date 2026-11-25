@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f4ed">
+    <title>Parkside — Workout kiosk</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Parkside home"><span class="brand-mark">P</span><span>parkside</span></a>
+      <div class="topbar-right">
+        <span class="location-label"><span class="status-dot"></span> Riverside Park</span>
+        <button id="language-toggle" class="language-toggle" type="button" aria-label="Switch language">हिंदी</button>
+      </div>
+    </header>
+    <main id="app" class="app-shell" aria-live="polite">
+      <div class="loading">Getting the kiosk ready…</div>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
